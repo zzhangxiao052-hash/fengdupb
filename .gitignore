@@ -1,0 +1,23 @@
+﻿# Demo deployment repo ignore
+# [无需部署] 原始资料与压缩包
+*.xlsx
+*.xls
+*.zip
+*.psd
+*.ai
+*.sketch
+
+# [无需部署] 根目录散落图片素材（如后续确需上线，请移入 prototype 目录并按相对路径引用）
+/*.png
+/*.jpg
+/*.jpeg
+/*.webp
+/*.gif
+
+# 系统文件
+Thumbs.db
+.DS_Store
+
+# 编辑器缓存
+.vscode/
+.idea/

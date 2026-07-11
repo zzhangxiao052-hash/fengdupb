@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>丰都县智慧园区综合管理平台</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body class="admin-body">
+    <header class="admin-header">
+        <div class="admin-logo">
+            <span class="logo-mark">园</span>
+            <div>
+                <strong>丰都县智慧园区综合管理平台</strong>
+                <small>演示版 · 政务业务协同驾驶台</small>
+            </div>
+        </div>
+        <div class="admin-tools">
+            <span id="currentTime"></span>
+            <button class="tool-btn" data-action="notify">消息 <b>6</b></button>
+            <button class="tool-btn" data-action="profile">系统管理员</button>
+            <button class="tool-btn ghost" data-action="logout">退出</button>
+        </div>
+    </header>
+
+    <div class="admin-main">
+        <aside class="admin-sidebar" id="adminNav"></aside>
+        <main class="admin-content">
+            <div class="content-toolbar">
+                <div>
+                    <div class="breadcrumb" id="breadcrumb">园区综合态势 / 园区概览指标</div>
+                    <h1 id="pageTitle">园区概览指标</h1>
+                </div>
+                <div class="toolbar-actions">
+                    <button class="btn btn-default" data-modal="报表导出">导出报表</button>
+                    <button class="btn btn-primary" data-modal="数据刷新">刷新数据</button>
+                </div>
+            </div>
+            <section id="pageRoot" class="page-root"></section>
+        </main>
+    </div>
+
+    <div class="modal-mask hide" id="modalMask">
+        <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+            <div class="modal-head">
+                <div>
+                    <h3 id="modalTitle">操作确认</h3>
+                    <p id="modalSubTitle">当前操作仅用于演示交互流程</p>
+                </div>
+                <button class="modal-close" id="modalClose" aria-label="关闭">×</button>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-foot">
+                <button class="btn btn-default" id="modalCancel">取消</button>
+                <button class="btn btn-primary" id="modalConfirm">确认办理</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="./js/echarts.min.js"></script>
+    <script src="./js/mock-data.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>
