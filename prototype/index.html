@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,7 @@
             <span class="logo-mark">园</span>
             <div>
                 <strong>丰都县智慧园区综合管理平台</strong>
-                <small>演示版 · 政务业务协同驾驶台</small>
+                <small>政务业务协同驾驶台</small>
             </div>
         </div>
         <div class="admin-tools">
@@ -56,6 +56,36 @@
             </div>
         </div>
     </div>
+
+
+
+    <button class="ai-assistant-launcher" id="aiAssistantLauncher" type="button" aria-label="&#25171;&#24320;AI&#38382;&#31572;&#26234;&#33021;&#20307;">
+        <span>AI&#38382;&#31572;&#26234;&#33021;&#20307;</span>
+    </button>
+    <section class="ai-assistant-panel" id="aiAssistantPanel" aria-label="AI&#38382;&#31572;&#26234;&#33021;&#20307;&#24377;&#31383;">
+        <div class="ai-assistant-head">
+            <div>
+                <strong>AI&#38382;&#31572;&#26234;&#33021;&#20307;</strong>
+                <small>&#25919;&#31574;&#21672;&#35810; / &#19994;&#21153;&#22330;&#26223; / &#25307;&#21830;&#38382;&#31572;</small>
+            </div>
+            <button class="ai-assistant-close" id="aiAssistantClose" type="button" aria-label="&#20851;&#38381;&#38382;&#31572;">&times;</button>
+        </div>
+        <div class="ai-assistant-body" id="aiAssistantBody">
+            <div class="ai-msg robot">
+                <div class="ai-msg-bubble">&#24744;&#22909;&#65292;&#36825;&#37324;&#26159; AI &#38382;&#31572;&#26234;&#33021;&#20307;&#65292;&#21487;&#21672;&#35810;&#25307;&#21830;&#25919;&#31574;&#12289;&#20225;&#19994;&#26381;&#21153;&#21644;&#22253;&#21306;&#19994;&#21153;&#22330;&#26223;&#12290;</div>
+            </div>
+        </div>
+        <div class="ai-quick-questions" id="aiQuickQuestions">
+            <button type="button" data-question="&#22253;&#21306;&#26377;&#21738;&#20123;&#25307;&#21830;&#25919;&#31574;&#65311;">&#25307;&#21830;&#25919;&#31574;</button>
+            <button type="button" data-question="&#26234;&#33021;&#21046;&#36896;&#20135;&#19994;&#36866;&#21512;&#25307;&#24341;&#21738;&#20123;&#20225;&#19994;&#65311;">&#25307;&#21830;&#26041;&#21521;</button>
+            <button type="button" data-question="&#20225;&#19994;&#20837;&#39547;&#21518;&#21487;&#20197;&#20139;&#21463;&#21738;&#20123;&#26381;&#21153;&#65311;">&#20225;&#19994;&#26381;&#21153;</button>
+            <button type="button" data-question="&#24403;&#21069;&#37325;&#28857;&#19994;&#21153;&#22330;&#26223;&#26377;&#21738;&#20123;&#65311;">&#19994;&#21153;&#22330;&#26223;</button>
+        </div>
+        <form class="ai-assistant-form" id="aiAssistantForm">
+            <input id="aiAssistantInput" type="text" placeholder="&#35831;&#36755;&#20837;&#25919;&#31574;&#12289;&#25307;&#21830;&#12289;&#19994;&#21153;&#30456;&#20851;&#38382;&#39064;">
+            <button type="submit">&#21457;&#36865;</button>
+        </form>
+    </section>
 
     <script src="./js/echarts.min.js"></script>
     <script src="./js/mock-data.js"></script>

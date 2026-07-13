@@ -1,4 +1,4 @@
-﻿// [交互修改区] 仅前端演示逻辑：菜单切换、图表渲染、弹窗操作、假筛选。
+// [交互修改区] 仅前端演示逻辑：菜单切换、图表渲染、弹窗操作、假筛选。
 const chartInstances = new Map();
 const colors = ['#1677ff', '#1f9d55', '#d9822b', '#d64545', '#7b61ff', '#13a8a8'];
 
@@ -57,6 +57,9 @@ function renderPage(id) {
         ${renderKpis(page.kpis)}
         ${page.flow ? renderFlow(page.flow) : ''}
         ${page.assetMap ? renderAssetMap() : ''}
+        ${page.chainMap ? renderChainMap(page.chainMap) : ''}
+        ${page.reportSections ? renderReportSections(page.reportSections) : ''}
+        ${page.companyProfile ? renderCompanyProfile(page.companyProfile) : ''}
         ${renderCharts(page.charts || [])}
         ${page.list ? renderList(page.list) : ''}
         ${page.table ? renderTable(page.table) : ''}
@@ -82,6 +85,19 @@ function renderFlow(flow) {
     return `<div class="admin-card"><div class="card-head"><h2 class="card-title">业务流转步骤</h2><span class="card-sub">点击页面按钮可查看对应办理弹窗</span></div><div class="card-body"><div class="flow-list">${flow.map((step, idx) => `
         <div class="flow-step"><b>${idx + 1}. ${step[0]}</b><p>${step[1]}</p></div>
     `).join('')}</div></div></div>`;
+}
+
+
+function renderChainMap(chainMap) {
+    return `<div class="admin-card"><div class="card-head"><h2 class="card-title">${chainMap.title}</h2><span class="card-sub">\u4e0a\u4e0b\u6e38\u94fe\u8def\u91c7\u7528\u6f14\u793a\u578b\u9759\u6001\u56fe\u8c31\u5c55\u793a</span></div><div class="card-body"><div class="chain-legend">${chainMap.legend.map(name => `<span class="tag tag-blue">${name}</span>`).join('')}</div><div class="chain-map-grid">${chainMap.columns.map((column, columnIndex) => `<div class="chain-column chain-c${columnIndex + 1}"><div class="chain-column-title">${column.title}</div><div class="chain-node-list">${column.items.map(item => `<div class="chain-node">${item}</div>`).join('')}</div></div>`).join('')}</div><div class="chain-company-box">${chainMap.companies.map(item => `<div class="chain-company-item"><span>${item[0]}</span><strong>${item[1]}</strong></div>`).join('')}</div></div></div>`;
+}
+
+function renderReportSections(sections) {
+    return `<div class="admin-card"><div class="card-head"><h2 class="card-title">AI \u4ea7\u4e1a\u5206\u6790\u6458\u8981</h2><span class="card-sub">\u4ee5\u4e0b\u5185\u5bb9\u4e3a\u672c\u5730\u5047\u6570\u636e\u751f\u6210\u7684\u6f14\u793a\u62a5\u544a</span></div><div class="card-body"><div class="report-grid">${sections.map(section => `<article class="report-block"><h3>${section[0]}</h3><p>${section[1]}</p></article>`).join('')}</div></div></div>`;
+}
+
+function renderCompanyProfile(profile) {
+    return `<div class="admin-card"><div class="card-head"><div><h2 class="card-title">\u4f01\u4e1a\u753b\u50cf\u5361\u7247</h2><span class="card-sub">\u4f01\u4e1a\u5de5\u5546\u4fe1\u606f\u4e0e\u62db\u5546\u4ef7\u503c\u5c55\u793a</span></div><div class="profile-name">${profile.name}</div></div><div class="card-body"><div class="profile-tags">${profile.tags.map(tag => `<span class="tag tag-blue">${tag}</span>`).join('')}</div><div class="profile-layout"><div class="profile-panel"><h3>\u5de5\u5546\u57fa\u7840\u4fe1\u606f</h3><div class="profile-info-list">${profile.basicInfo.map(item => `<div class="profile-info-item"><span>${item[0]}</span><strong>${item[1]}</strong></div>`).join('')}</div></div><div class="profile-panel"><h3>AI \u4f01\u4e1a\u753b\u50cf</h3><div class="profile-portrait">${profile.portrait.map(item => `<div class="portrait-item"><label>${item[0]}</label><p>${item[1]}</p></div>`).join('')}</div></div></div></div></div>`;
 }
 
 function renderAssetMap() {
@@ -209,7 +225,58 @@ function fakeFilter(btn) {
     showToast(btn.textContent.trim() === '重置' ? '筛选条件已重置' : '已按当前条件刷新列表');
 }
 
+
+function initAiAssistant() {
+    const launcher = document.getElementById('aiAssistantLauncher');
+    const panel = document.getElementById('aiAssistantPanel');
+    const close = document.getElementById('aiAssistantClose');
+    const quick = document.getElementById('aiQuickQuestions');
+    const body = document.getElementById('aiAssistantBody');
+    const form = document.getElementById('aiAssistantForm');
+    const input = document.getElementById('aiAssistantInput');
+    if (!launcher || !panel || !quick || !body || !form || !input) return;
+
+    const answerMap = {
+        '\u56ed\u533a\u6709\u54ea\u4e9b\u62db\u5546\u653f\u7b56\uff1f': '\u5f53\u524d\u6f14\u793a\u53e3\u5f84\uff1a\u53ef\u54a8\u8be2\u5382\u623f\u79df\u91d1\u51cf\u514d\u3001\u8bbe\u5907\u6295\u5165\u8865\u8d34\u3001\u4eba\u624d\u5f15\u8fdb\u5956\u52b1\u3001\u79d1\u6280\u521b\u65b0\u5956\u52b1\u7b49\u653f\u7b56\uff0c\u6b63\u5f0f\u5185\u5bb9\u4ee5\u5c5e\u5730\u6700\u65b0\u53d1\u5e03\u6587\u4ef6\u4e3a\u51c6\u3002',
+        '\u667a\u80fd\u5236\u9020\u4ea7\u4e1a\u9002\u5408\u62db\u5f15\u54ea\u4e9b\u4f01\u4e1a\uff1f': '\u5efa\u8bae\u4f18\u5148\u62db\u5f15\u5de5\u4e1a\u8f6f\u4ef6\u3001\u9ad8\u7aef\u4f20\u611f\u5668\u3001\u7cbe\u5bc6\u96f6\u90e8\u4ef6\u3001\u7cfb\u7edf\u96c6\u6210\u670d\u52a1\u7b49\u4f01\u4e1a\uff0c\u91cd\u70b9\u8865\u9f50\u4e0a\u6e38\u6838\u5fc3\u914d\u5957\u77ed\u677f\u3002',
+        '\u4f01\u4e1a\u5165\u9a7b\u540e\u53ef\u4ee5\u4eab\u53d7\u54ea\u4e9b\u670d\u52a1\uff1f': '\u53ef\u63d0\u4f9b\u4f01\u4e1a\u6863\u6848\u5efa\u6863\u3001\u653f\u7b56\u7533\u62a5\u8f85\u5bfc\u3001\u8bc9\u6c42\u5de5\u5355\u6d41\u8f6c\u3001\u9879\u76ee\u4ee3\u529e\u3001\u4eba\u624d\u5bf9\u63a5\u3001\u878d\u8d44\u670d\u52a1\u7b49\u4e00\u7ad9\u5f0f\u670d\u52a1\u3002',
+        '\u5f53\u524d\u91cd\u70b9\u4e1a\u52a1\u573a\u666f\u6709\u54ea\u4e9b\uff1f': '\u5f53\u524d\u6f14\u793a\u573a\u666f\u5305\u542b\u56ed\u533a\u6001\u52bf\u3001\u9879\u76ee\u7ba1\u7406\u3001\u5b89\u5168\u76d1\u7ba1\u3001\u4f01\u4e1a\u670d\u52a1\u3001AI \u62db\u5546\u56fe\u8c31\u4e0e\u5206\u6790\u62a5\u544a\u7b49\u4e1a\u52a1\u6a21\u5757\u3002'
+    };
+
+    const appendMessage = (role, text) => {
+        const item = document.createElement('div');
+        item.className = 'ai-msg ' + role;
+        item.innerHTML = '<div class="ai-msg-bubble">' + text + '</div>';
+        body.appendChild(item);
+        body.scrollTop = body.scrollHeight;
+    };
+
+    const reply = (question) => {
+        const answer = answerMap[question] || '\u8fd9\u662f\u4e00\u4e2a\u6f14\u793a\u578b AI \u95ee\u7b54\u667a\u80fd\u4f53\uff0c\u53ef\u56de\u7b54\u653f\u7b56\u54a8\u8be2\u3001\u62db\u5546\u65b9\u5411\u3001\u4f01\u4e1a\u670d\u52a1\u4e0e\u4e1a\u52a1\u573a\u666f\u7b49\u5e38\u89c1\u95ee\u9898\u3002';
+        appendMessage('robot', answer);
+    };
+
+    launcher.addEventListener('click', () => panel.classList.toggle('show'));
+    close.addEventListener('click', () => panel.classList.remove('show'));
+    quick.addEventListener('click', (event) => {
+        const btn = event.target.closest('[data-question]');
+        if (!btn) return;
+        const question = btn.dataset.question;
+        appendMessage('user', question);
+        reply(question);
+    });
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const question = input.value.trim();
+        if (!question) return;
+        appendMessage('user', question);
+        input.value = '';
+        reply(question);
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    initAiAssistant();
     initClock();
     renderNav();
     setActivePage('p-sit-overview');
